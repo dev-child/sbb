@@ -14,10 +14,17 @@
             </div>
         </div>
         <div class="my-3">
+            <!--수정 버튼-->
             <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
                sec:authorize="isAuthenticated()"
                th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
                th:text="수정"></a>
+            <!--삭제 버튼-->
+            <a href="javascript:void(0);"
+               th:data-uri="@{|/question/delete/${question.id}|}" class="delete btn btn-sm btn-outline-secondary"
+               sec:authorize="isAuthenticated()"
+               th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+               th:text="삭제"></a>
         </div>
         <!--답변 개수 표시-->
         <h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
@@ -35,16 +42,25 @@
                 </div>
             </div>
             <!--답변 반복 끝-->
-            <!--답변 작성-->
-            <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
-                <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-                <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control"
-                          rows="10"></textarea>
-                <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control"
-                          rows="10"></textarea>
-                <input type="submit" value="답변 등록" class="btn btn-primary my-2">
-            </form>
         </div>
+        <!--답변 작성-->
+        <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control" rows="10"></textarea>
+            <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
+            <input type="submit" value="답변 등록" class="btn btn-primary my-2">
+        </form>
+        <script layout:fragment="script" type="text/javascript">
+            console.log("??")
+            const delete_elements = document.getElementsByClassName("delete");
+            Array.from(delete_elements).forEach(function (element) {
+                element.addEventListener("click", function () {
+                    if (confirm("정말로 삭제하시겠습니까?")) {
+                        location.href = this.dataset.uri;
+                    }
+                });
+            });
+        </script>
     </div>
 </div>
 </html>
