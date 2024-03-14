@@ -13,6 +13,12 @@
                 <div th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></div>
             </div>
         </div>
+        <div class="my-3">
+            <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+               sec:authorize="isAuthenticated()"
+               th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+               th:text="수정"></a>
+        </div>
         <!--답변 개수 표시-->
         <h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
         <!--답변 반복 시작-->
