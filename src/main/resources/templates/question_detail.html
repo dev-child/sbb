@@ -21,6 +21,12 @@
             </div>
         </div>
         <div class="my-3">
+            <!--추천버튼-->
+            <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+               th:data-uri="@{|/question/vote/${question.id}|}">
+                추천
+                <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+            </a>
             <!--수정 버튼-->
             <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
                sec:authorize="isAuthenticated()"
@@ -55,6 +61,13 @@
                     </div>
                 </div>
                 <div class="my-3">
+                    <!--추천버튼-->
+                    <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                       th:data-uri="@{|/answer/vote/${answer.id}|}">
+                        추천
+                        <span class="badge rounded-pill bg-success"
+                              th:text="${#lists.size(answer.voter)}"></span>
+                    </a>
                     <!--수정버튼-->
                     <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"
@@ -79,11 +92,20 @@
         </form>
         <!--JavaScript-->
         <script layout:fragment="script" type="text/javascript">
-            console.log("??")
+            /*삭제*/
             const delete_elements = document.getElementsByClassName("delete");
             Array.from(delete_elements).forEach(function (element) {
                 element.addEventListener("click", function () {
                     if (confirm("정말로 삭제하시겠습니까?")) {
+                        location.href = this.dataset.uri;
+                    }
+                });
+            });
+            /*추천*/
+            const recommend_elements = document.getElementsByClassName("recommend");
+            Array.from(recommend_elements).forEach(function (element) {
+                element.addEventListener("click", function () {
+                    if (confirm("정말로 추천하시겠습니까?")) {
                         location.href = this.dataset.uri;
                     }
                 });
