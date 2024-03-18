@@ -3,7 +3,6 @@ package com.mysite.sbb;
 import org.commonmark.node.Node;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Component;
-
 import org.commonmark.parser.Parser;
 
 @Component
